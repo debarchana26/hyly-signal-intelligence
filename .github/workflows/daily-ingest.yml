@@ -28,13 +28,32 @@ jobs:
         uses: anthropics/claude-code-action@beta
         with:
           anthropic_api_key: ${{ secrets.ANTHROPIC_API_KEY }}
+          mcp_config: |
+            {
+              "mcpServers": {
+                "notion": {
+                  "command": "npx",
+                  "args": ["-y", "@notionhq/notion-mcp-server"],
+                  "env": {
+                    "NOTION_API_TOKEN": "${{ secrets.NOTION_TOKEN }}"
+                  }
+                },
+                "gdrive": {
+                  "command": "npx",
+                  "args": ["-y", "@isaacphi/mcp-gdrive"],
+                  "env": {
+                    "GDRIVE_CLIENT_ID": "${{ secrets.GDRIVE_CLIENT_ID }}",
+                    "GDRIVE_CLIENT_SECRET": "${{ secrets.GDRIVE_CLIENT_SECRET }}",
+                    "GDRIVE_REFRESH_TOKEN": "${{ secrets.GDRIVE_REFRESH_TOKEN }}"
+                  }
+                }
+              }
+            }
           prompt: |
             Run the km-signal-pipeline skill.
             ${{ inputs.date_range && format('Date range: {0}', inputs.date_range) || '' }}
             ${{ inputs.client_filter && format('Client filter: {0}', inputs.client_filter) || '' }}
-          allowed_tools: "mcp__notion,mcp__gdrive,Bash,Read,Write,Edit"
         env:
-          NOTION_API_KEY: ${{ secrets.NOTION_API_KEY }}
           GCHAT_WEBHOOK: ${{ secrets.GCHAT_WEBHOOK }}
 
       - name: Commit theme updates

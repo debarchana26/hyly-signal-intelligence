@@ -93,11 +93,17 @@ curl -X POST \
 
 ## Required secrets (GitHub → Settings → Secrets)
 
-| Secret | Value |
-|--------|-------|
-| `ANTHROPIC_API_KEY` | Anthropic API key |
-| `NOTION_API_KEY` | Notion integration token |
-| `GCHAT_WEBHOOK` | Google Chat webhook URL |
+| Secret | What it's for |
+|--------|--------------|
+| `ANTHROPIC_API_KEY` | Claude — required by `claude-code-action` |
+| `NOTION_TOKEN` | Notion MCP server (`@notionhq/notion-mcp-server`) |
+| `GDRIVE_CLIENT_ID` | Google Drive MCP server |
+| `GDRIVE_CLIENT_SECRET` | Google Drive MCP server |
+| `GDRIVE_REFRESH_TOKEN` | Google Drive MCP server (use existing OAuth refresh token) |
+| `GCHAT_WEBHOOK` | GChat webhook URL — no MCP needed, just a POST |
+
+All MCP tools (`notion-search`, `notion-fetch`, `notion-update-page`, `download_file_content`)
+are called by Claude through the configured MCP servers — not direct API calls.
 
 ---
 

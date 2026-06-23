@@ -19,22 +19,26 @@ jobs:
         uses: anthropics/claude-code-action@beta
         with:
           anthropic_api_key: ${{ secrets.ANTHROPIC_API_KEY }}
+          mcp_config: |
+            {
+              "mcpServers": {
+                "notion": {
+                  "command": "npx",
+                  "args": ["-y", "@notionhq/notion-mcp-server"],
+                  "env": {
+                    "NOTION_API_TOKEN": "${{ secrets.NOTION_TOKEN }}"
+                  }
+                }
+              }
+            }
           prompt: |
             Compile the weekly product digest.
-
             1. Read all files in themes/ directory
-            2. Filter occurrences from the past 7 days (check Occurrences table dates)
-            3. Include only signals with signal_type: gap, limit, expectation
-            4. Build the weekly digest card in this format:
-
-            📊 Product Signal Digest — Week of [Mon YYYY-MM-DD]
-            | Theme | Type | Client | Date | Quote | MRR | Severity |
-            Total: [N] signals across [N] clients. Critical alerts sent: [N]
-
-            5. Post to product_digest_feed webhook (TEST_MODE check: read from skill/km-signal-pipeline.md)
-            6. Save digest to digests/YYYY-WW.md
-            7. Note any themes that crossed a promotion threshold this week (candidate→emerging, emerging→theme)
-          allowed_tools: "Bash,Read,Write"
+            2. Filter occurrences from the past 7 days
+            3. Include only signal_type: gap, limit, expectation
+            4. Build and post the weekly digest card to product_digest_feed
+            5. Save to digests/YYYY-WW.md
+            6. Note any themes that crossed a promotion threshold this week
         env:
           GCHAT_WEBHOOK: ${{ secrets.GCHAT_WEBHOOK }}
 
