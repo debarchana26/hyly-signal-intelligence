@@ -19,42 +19,61 @@ jobs:
     runs-on: ubuntu-latest
     permissions:
       contents: write
+      id-token: write
 
     steps:
-      - name: Checkout
-        uses: actions/checkout@v4
+      - uses: actions/checkout@v4
 
-      - name: Run signal pipeline
-        uses: anthropics/claude-code-action@beta
+      - uses: actions/setup-node@v4
         with:
-          anthropic_api_key: ${{ secrets.ANTHROPIC_API_KEY }}
-          mcp_config: |
-            {
-              "mcpServers": {
-                "notion": {
-                  "command": "npx",
-                  "args": ["-y", "@notionhq/notion-mcp-server"],
-                  "env": {
-                    "NOTION_API_TOKEN": "${{ secrets.NOTION_TOKEN }}"
-                  }
-                },
-                "gdrive": {
-                  "command": "npx",
-                  "args": ["-y", "@isaacphi/mcp-gdrive"],
-                  "env": {
-                    "GDRIVE_CLIENT_ID": "${{ secrets.GDRIVE_CLIENT_ID }}",
-                    "GDRIVE_CLIENT_SECRET": "${{ secrets.GDRIVE_CLIENT_SECRET }}",
-                    "GDRIVE_REFRESH_TOKEN": "${{ secrets.GDRIVE_REFRESH_TOKEN }}"
-                  }
+          node-version: '20'
+
+      - name: Install Claude CLI
+        run: npm install -g @anthropic-ai/claude-code
+
+      - name: Configure MCP servers
+        run: |
+          mkdir -p ~/.claude
+          python3 - <<'EOF'
+          import json, os
+          config = {
+            "mcpServers": {
+              "notion": {
+                "command": "npx",
+                "args": ["-y", "@notionhq/notion-mcp-server"],
+                "env": {"NOTION_API_TOKEN": os.environ["NOTION_TOKEN"]}
+              },
+              "gdrive": {
+                "command": "npx",
+                "args": ["-y", "@isaacphi/mcp-gdrive"],
+                "env": {
+                  "GDRIVE_CLIENT_ID": os.environ["GDRIVE_CLIENT_ID"],
+                  "GDRIVE_CLIENT_SECRET": os.environ["GDRIVE_CLIENT_SECRET"],
+                  "GDRIVE_REFRESH_TOKEN": os.environ["GDRIVE_REFRESH_TOKEN"]
                 }
               }
             }
-          prompt: |
-            Run the km-signal-pipeline skill.
-            ${{ inputs.date_range && format('Date range: {0}', inputs.date_range) || '' }}
-            ${{ inputs.client_filter && format('Client filter: {0}', inputs.client_filter) || '' }}
+          }
+          with open(os.path.expanduser("~/.claude/settings.json"), "w") as f:
+            json.dump(config, f, indent=2)
+          EOF
         env:
+          NOTION_TOKEN: ${{ secrets.NOTION_TOKEN }}
+          GDRIVE_CLIENT_ID: ${{ secrets.GDRIVE_CLIENT_ID }}
+          GDRIVE_CLIENT_SECRET: ${{ secrets.GDRIVE_CLIENT_SECRET }}
+          GDRIVE_REFRESH_TOKEN: ${{ secrets.GDRIVE_REFRESH_TOKEN }}
+
+      - name: Run signal pipeline
+        run: |
+          PROMPT="Run the km-signal-pipeline skill."
+          [ -n "$DATE_RANGE" ] && PROMPT="$PROMPT Date range: $DATE_RANGE."
+          [ -n "$CLIENT_FILTER" ] && PROMPT="$PROMPT Client filter: $CLIENT_FILTER."
+          claude --print --dangerously-skip-permissions "$PROMPT"
+        env:
+          ANTHROPIC_API_KEY: ${{ secrets.ANTHROPIC_API_KEY }}
           GCHAT_WEBHOOK: ${{ secrets.GCHAT_WEBHOOK }}
+          DATE_RANGE: ${{ inputs.date_range }}
+          CLIENT_FILTER: ${{ inputs.client_filter }}
 
       - name: Commit theme updates
         run: |

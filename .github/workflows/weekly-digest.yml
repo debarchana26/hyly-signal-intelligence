@@ -10,36 +10,24 @@ jobs:
     runs-on: ubuntu-latest
     permissions:
       contents: write
+      id-token: write
 
     steps:
-      - name: Checkout
-        uses: actions/checkout@v4
+      - uses: actions/checkout@v4
 
-      - name: Compile and post weekly digest
-        uses: anthropics/claude-code-action@beta
+      - uses: actions/setup-node@v4
         with:
-          anthropic_api_key: ${{ secrets.ANTHROPIC_API_KEY }}
-          mcp_config: |
-            {
-              "mcpServers": {
-                "notion": {
-                  "command": "npx",
-                  "args": ["-y", "@notionhq/notion-mcp-server"],
-                  "env": {
-                    "NOTION_API_TOKEN": "${{ secrets.NOTION_TOKEN }}"
-                  }
-                }
-              }
-            }
-          prompt: |
-            Compile the weekly product digest.
-            1. Read all files in themes/ directory
-            2. Filter occurrences from the past 7 days
-            3. Include only signal_type: gap, limit, expectation
-            4. Build and post the weekly digest card to product_digest_feed
-            5. Save to digests/YYYY-WW.md
-            6. Note any themes that crossed a promotion threshold this week
+          node-version: '20'
+
+      - name: Install Claude CLI
+        run: npm install -g @anthropic-ai/claude-code
+
+      - name: Run weekly digest
+        run: |
+          claude --print --dangerously-skip-permissions \
+            "Compile the weekly product digest. Read all files in themes/, filter occurrences from the past 7 days, include only signal_type gap/limit/expectation, build and post the weekly digest card to product_digest_feed, save to digests/YYYY-WW.md, note any themes that crossed a promotion threshold this week."
         env:
+          ANTHROPIC_API_KEY: ${{ secrets.ANTHROPIC_API_KEY }}
           GCHAT_WEBHOOK: ${{ secrets.GCHAT_WEBHOOK }}
 
       - name: Commit digest
