@@ -1,0 +1,14 @@
+{
+  "mrr_high_threshold": 5000,
+
+  "severity_scales": {
+    "client_meeting_feed":  ["healthy", "watch", "act_now"],
+    "product_digest_feed":  ["low", "medium", "high", "critical"],
+    "marketing_feed":       null
+  },
+
+  "severity_bump_when_mrr_high": {
+    "client_meeting_feed":  { "watch": "act_now" },
+    "product_digest_feed":  { "low": "medium", "medium": "high", "high": "critical" }
+  }
+}

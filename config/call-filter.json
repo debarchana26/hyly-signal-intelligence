@@ -1,0 +1,33 @@
+{
+  "status": ["Recent Client Meeting"],
+
+  "meeting_type_include": [
+    "CSM Check In",
+    "CSM - Product Demo",
+    "CSM - Feature Demo",
+    "CSM Pilot Success Review",
+    "CSM Pilot Check In",
+    "CSM Success Call",
+    "CSM Pre-Kickoff",
+    "CSM Kick Off",
+    "Sales Halo Discovery",
+    "Sales Hayley Discovery",
+    "Sales Halo Demo",
+    "Sales Hayley Demo",
+    "Sales Pre-Pilot Proposal",
+    "Sales Pilot Proposal (Hayley/Halo)",
+    "Sales Pilot Acceptance",
+    "Sales Pilot Check-In",
+    "Sales Client Call",
+    "Growth: Discovery",
+    "Growth: Demo",
+    "Growth: Sales Alignment"
+  ],
+
+  "transcript_fields_priority": [
+    "[NEW] GDrive Transcript URL",
+    "GDrive Transcript URL"
+  ],
+
+  "transcript_required": true
+}

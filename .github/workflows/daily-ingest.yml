@@ -1,0 +1,46 @@
+name: Daily Signal Ingest
+
+on:
+  schedule:
+    - cron: '0 9 * * 1-5'  # 09:00 UTC Mon–Fri
+  workflow_dispatch:
+    inputs:
+      date_range:
+        description: 'Date to process (YYYY-MM-DD). Defaults to yesterday.'
+        required: false
+        type: string
+      client_filter:
+        description: 'Process only this client name (optional — leave blank for all)'
+        required: false
+        type: string
+
+jobs:
+  ingest:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Run signal pipeline
+        uses: anthropics/claude-code-action@beta
+        with:
+          anthropic_api_key: ${{ secrets.ANTHROPIC_API_KEY }}
+          prompt: |
+            Run the km-signal-pipeline skill.
+            ${{ inputs.date_range && format('Date range: {0}', inputs.date_range) || '' }}
+            ${{ inputs.client_filter && format('Client filter: {0}', inputs.client_filter) || '' }}
+          allowed_tools: "mcp__notion,mcp__gdrive,Bash,Read,Write,Edit"
+        env:
+          NOTION_API_KEY: ${{ secrets.NOTION_API_KEY }}
+          GCHAT_WEBHOOK: ${{ secrets.GCHAT_WEBHOOK }}
+
+      - name: Commit theme updates
+        run: |
+          git config --local user.email "signal-pipeline@hyly.ai"
+          git config --local user.name "Signal Pipeline"
+          git add themes/ digests/
+          git diff --staged --quiet || git commit -m "signal: $(date +%Y-%m-%d) ingest"
+          git push
