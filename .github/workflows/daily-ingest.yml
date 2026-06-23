@@ -34,7 +34,7 @@ jobs:
       - name: Configure MCP servers
         run: |
           claude mcp add notion \
-            -e NOTION_API_TOKEN="$NOTION_TOKEN" \
+            -e OPENAPI_MCP_HEADERS="{\"Authorization\": \"Bearer $NOTION_TOKEN\", \"Notion-Version\": \"2022-06-28\"}" \
             -- npx -y @notionhq/notion-mcp-server
 
           claude mcp add gdrive \
