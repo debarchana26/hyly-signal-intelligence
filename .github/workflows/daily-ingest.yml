@@ -33,30 +33,17 @@ jobs:
 
       - name: Configure MCP servers
         run: |
-          mkdir -p ~/.claude
-          python3 - <<'EOF'
-          import json, os
-          config = {
-            "mcpServers": {
-              "notion": {
-                "command": "npx",
-                "args": ["-y", "@notionhq/notion-mcp-server"],
-                "env": {"NOTION_API_TOKEN": os.environ["NOTION_TOKEN"]}
-              },
-              "gdrive": {
-                "command": "npx",
-                "args": ["-y", "@isaacphi/mcp-gdrive"],
-                "env": {
-                  "GDRIVE_CLIENT_ID": os.environ["GDRIVE_CLIENT_ID"],
-                  "GDRIVE_CLIENT_SECRET": os.environ["GDRIVE_CLIENT_SECRET"],
-                  "GDRIVE_REFRESH_TOKEN": os.environ["GDRIVE_REFRESH_TOKEN"]
-                }
-              }
-            }
-          }
-          with open(os.path.expanduser("~/.claude/settings.json"), "w") as f:
-            json.dump(config, f, indent=2)
-          EOF
+          claude mcp add notion \
+            -e NOTION_API_TOKEN="$NOTION_TOKEN" \
+            -- npx -y @notionhq/notion-mcp-server
+
+          claude mcp add gdrive \
+            -e GDRIVE_CLIENT_ID="$GDRIVE_CLIENT_ID" \
+            -e GDRIVE_CLIENT_SECRET="$GDRIVE_CLIENT_SECRET" \
+            -e GDRIVE_REFRESH_TOKEN="$GDRIVE_REFRESH_TOKEN" \
+            -- npx -y @isaacphi/mcp-gdrive
+
+          claude mcp list
         env:
           NOTION_TOKEN: ${{ secrets.NOTION_TOKEN }}
           GDRIVE_CLIENT_ID: ${{ secrets.GDRIVE_CLIENT_ID }}
