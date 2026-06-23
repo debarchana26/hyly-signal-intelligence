@@ -37,18 +37,19 @@ jobs:
             -e OPENAPI_MCP_HEADERS="{\"Authorization\": \"Bearer $NOTION_TOKEN\", \"Notion-Version\": \"2022-06-28\"}" \
             -- npx -y @notionhq/notion-mcp-server
 
+          echo "$GDRIVE_CREDENTIALS_JSON" > /tmp/gdrive_credentials.json
+          echo "$GDRIVE_TOKEN_JSON" > /tmp/gdrive_token.json
+
           claude mcp add gdrive \
-            -e GDRIVE_CLIENT_ID="$GDRIVE_CLIENT_ID" \
-            -e GDRIVE_CLIENT_SECRET="$GDRIVE_CLIENT_SECRET" \
-            -e GDRIVE_REFRESH_TOKEN="$GDRIVE_REFRESH_TOKEN" \
-            -- npx -y @isaacphi/mcp-gdrive
+            -e GDRIVE_CREDENTIALS_FILE=/tmp/gdrive_credentials.json \
+            -e GDRIVE_TOKEN_FILE=/tmp/gdrive_token.json \
+            -- npx -y @modelcontextprotocol/server-gdrive
 
           claude mcp list
         env:
           NOTION_TOKEN: ${{ secrets.NOTION_TOKEN }}
-          GDRIVE_CLIENT_ID: ${{ secrets.GDRIVE_CLIENT_ID }}
-          GDRIVE_CLIENT_SECRET: ${{ secrets.GDRIVE_CLIENT_SECRET }}
-          GDRIVE_REFRESH_TOKEN: ${{ secrets.GDRIVE_REFRESH_TOKEN }}
+          GDRIVE_CREDENTIALS_JSON: ${{ secrets.GDRIVE_CREDENTIALS_JSON }}
+          GDRIVE_TOKEN_JSON: ${{ secrets.GDRIVE_TOKEN_JSON }}
 
       - name: Run signal pipeline
         run: |
