@@ -76,3 +76,9 @@ Add a new dated entry for every behavior-affecting change. Keep entries terse.
 - Added `.gitignore` (`*.py`, `__pycache__/`) and a pre-commit hook to keep `.py` files
   out and remind to update `history.md`.
 - Documented the file policy in `CLAUDE.md`.
+
+### 2026-06-24 — single GChat card template
+- Removed the redundant `config/gchat-card-templates.json` (static 3-slot version).
+- `config/gchat-templates.json` (dynamic, handles N signals) is now the sole card source.
+- Skill Step 7 + Config section now require all GChat cards to be built from
+  `config/gchat-templates.json`.

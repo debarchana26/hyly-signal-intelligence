@@ -10,6 +10,7 @@ description: "Daily client call signal pipeline. Reads recent Hyly.AI client cal
 - `config/call-filter.json` — which Notion pages to process
 - `config/taxonomy.json` — signal type → category, owner, feeds
 - `config/mrr-thresholds.json` — MRR threshold and severity bump rules
+- `config/gchat-templates.json` — the GChat card JSON templates (the ONLY source for cards posted to Google Chat)
 
 ## Constants
 
@@ -132,6 +133,14 @@ For each signal:
 ## Step 7 — Route to feeds
 
 Feeds for each signal type come from `config/taxonomy.json → feeds`.
+
+**Card format — REQUIRED:** Every card posted to Google Chat (any feed) MUST be built
+from `config/gchat-templates.json`. This is the single source of truth for card layout —
+look up the matching template by name (`client_meeting_card`, `product_digest_critical`,
+`weekly_product_digest`, `positive_signal`, etc.), fill its placeholders, and POST that
+JSON to the `GCHAT_WEBHOOK`. Do NOT hand-build card JSON or invent a different layout.
+The text blocks below are field-mapping references only — the actual payload comes from
+the template file.
 
 ### client_meeting_feed (all calls, top 3 signals per call by severity)
 
