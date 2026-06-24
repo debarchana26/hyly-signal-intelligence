@@ -1,0 +1,31 @@
+#!/usr/bin/env bash
+# Pre-commit guard for km-signal-intelligence.
+# 1. Block any .py file from being committed (this is a Claude-skill pipeline).
+# 2. Remind to update history.md when pipeline files change.
+#
+# Enable once per clone:  git config core.hooksPath .githooks
+
+set -euo pipefail
+
+staged() { git diff --cached --name-only --diff-filter=ACM; }
+
+# 1) Hard-block Python files.
+py=$(staged | grep -E '\.py$' || true)
+if [ -n "$py" ]; then
+  echo "✗ commit blocked: .py files are not allowed in this repo."
+  echo "  The pipeline engine is skill/km-signal-pipeline.md (see history.md)."
+  echo "  Offending files:"
+  echo "$py" | sed 's/^/    /'
+  exit 1
+fi
+
+# 2) Warn if pipeline-affecting files changed without a history.md update.
+changed=$(staged)
+touches_pipeline=$(echo "$changed" | grep -E '^(skill/|config/|\.github/workflows/)' || true)
+touches_history=$(echo "$changed" | grep -E '^history\.md$' || true)
+if [ -n "$touches_pipeline" ] && [ -z "$touches_history" ]; then
+  echo "⚠ warning: skill/config/workflow changed but history.md was not updated."
+  echo "  Add a dated entry to history.md (Change log). Continuing anyway."
+fi
+
+exit 0

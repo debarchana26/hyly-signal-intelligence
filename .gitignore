@@ -1,0 +1,5 @@
+# This is a Claude-skill-driven pipeline — no Python is committed here.
+# See history.md and CLAUDE.md → "Iteration history & file policy".
+*.py
+__pycache__/
+*.pyc

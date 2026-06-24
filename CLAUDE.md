@@ -98,6 +98,18 @@ signal: YYYY-MM-DD [N calls] [N signals] [N themes updated]
 
 ---
 
+## Iteration history & file policy
+
+- **`history.md` is the canonical iteration record.** Every commit that changes pipeline
+  behavior (anything under `skill/`, `config/`, or `.github/workflows/`) MUST add a dated
+  entry to the `history.md → Change log` in the same commit. Do not rewrite past entries.
+- **Never add `.py` files to this repo.** The pipeline engine is the Claude skill at
+  `skill/km-signal-pipeline.md`, not Python. `.py`/`__pycache__` are blocked by
+  `.gitignore` and the pre-commit hook in `.githooks/`.
+- A fresh clone must run `git config core.hooksPath .githooks` once to enable the hook.
+
+---
+
 ## Run summary
 
 Always print the run summary at the end, even if no signals were found. Format is in `skill/km-signal-pipeline.md → Run summary`.
