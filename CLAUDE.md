@@ -32,13 +32,13 @@ Before generating a new slug, scan `themes/` for an existing file that matches t
 
 Examples of correct slugs:
 - `knowledge-enablement-blast-segmentation-by-building`
-- `gap-product-renewal-drip-automation`
+- `feature-gap-product-renewal-drip-automation`
 - `competitor-competitive-elise-ai-coexistence`
 - `positive-relationship-hines-fat-village-expansion-intent`
 
 Examples of incorrect slugs (do not use):
 - `knowledge--blast-segmentation` (missing category, double dash)
-- `gap-renewal-drip` (missing category)
+- `feature-gap-renewal-drip` (missing category)
 - `knowledge-blast-email-building-segmentation` (variant of existing slug)
 
 ---

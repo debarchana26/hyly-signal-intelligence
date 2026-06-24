@@ -1,6 +1,6 @@
 ---
-theme_slug: gap-product-automated-renewal-reminders
-signal_type: gap
+theme_slug: feature-gap-product-automated-renewal-reminders
+signal_type: feature-gap
 category: product
 owner: PM
 status: candidate

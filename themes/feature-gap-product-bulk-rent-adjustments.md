@@ -1,6 +1,6 @@
 ---
-theme_slug: gap-product-bulk-rent-adjustments
-signal_type: gap
+theme_slug: feature-gap-product-bulk-rent-adjustments
+signal_type: feature-gap
 category: product
 owner: PM
 status: candidate

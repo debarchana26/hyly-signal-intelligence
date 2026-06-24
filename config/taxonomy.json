@@ -1,14 +1,14 @@
 {
-  "knowledge":   { "category": "enablement",    "owner": "KM",        "feeds": ["client_meeting_feed"] },
-  "skill":       { "category": "enablement",    "owner": "KM",        "feeds": ["client_meeting_feed"] },
-  "asset":       { "category": "enablement",    "owner": "KM",        "feeds": ["client_meeting_feed"] },
-  "response":    { "category": "enablement",    "owner": "KM",        "feeds": ["client_meeting_feed"] },
-  "comms":       { "category": "communication", "owner": "CSM Ops",   "feeds": ["client_meeting_feed"] },
-  "positioning": { "category": "communication", "owner": "CSM Ops",   "feeds": ["client_meeting_feed"] },
-  "process":     { "category": "operations",    "owner": "CSM Ops",   "feeds": ["client_meeting_feed"] },
-  "gap":         { "category": "product",       "owner": "PM",        "feeds": ["client_meeting_feed", "product_digest_feed"] },
-  "expectation": { "category": "product",       "owner": "PM",        "feeds": ["client_meeting_feed", "product_digest_feed"] },
-  "limit":       { "category": "product",       "owner": "PM",        "feeds": ["client_meeting_feed", "product_digest_feed"] },
-  "competitor":  { "category": "competitive",   "owner": "EA+Sales",  "feeds": ["client_meeting_feed"] },
-  "positive":    { "category": "relationship",  "owner": "Marketing", "feeds": ["client_meeting_feed", "marketing_feed"] }
+  "knowledge":    { "category": "enablement",    "owner": "CSM Ops",   "feeds": ["client_meeting_feed"] },
+  "skill":        { "category": "enablement",    "owner": "CSM Ops",   "feeds": ["client_meeting_feed"] },
+  "asset":        { "category": "enablement",    "owner": "CSM Ops",   "feeds": ["client_meeting_feed"] },
+  "comms":        { "category": "communication", "owner": "CSM Ops",   "feeds": ["client_meeting_feed"] },
+  "positioning":  { "category": "communication", "owner": "CSM Ops",   "feeds": ["client_meeting_feed"] },
+  "response":     { "category": "communication", "owner": "CSM Ops",   "feeds": ["client_meeting_feed"] },
+  "process":      { "category": "operations",    "owner": "CSM Ops",   "feeds": ["client_meeting_feed"] },
+  "feature-gap":  { "category": "product",       "owner": "PM",        "feeds": ["client_meeting_feed", "product_digest_feed"] },
+  "expectation":  { "category": "product",       "owner": "PM",        "feeds": ["client_meeting_feed", "product_digest_feed"] },
+  "limit":        { "category": "product",       "owner": "PM",        "feeds": ["client_meeting_feed", "product_digest_feed"] },
+  "competitor":   { "category": "competitive",   "owner": "EA+Sales",  "feeds": ["client_meeting_feed"] },
+  "positive":     { "category": "relationship",  "owner": "Marketing", "feeds": ["client_meeting_feed", "marketing_feed"] }
 }

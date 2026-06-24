@@ -104,7 +104,7 @@ For each signal extract:
 4. `response` — rep gives inconsistent answer to recurring question
 5. `comms` — client discovers limitation live on call
 6. `process` — broken pre/post-training workflow
-7. `gap` — client requests missing feature
+7. `feature-gap` — client requests missing feature
 8. `expectation` — client had wrong product expectation
 9. `limit` — client hits hard platform constraint
 10. `competitor` — competitor named on call

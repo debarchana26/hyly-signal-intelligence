@@ -30,7 +30,7 @@ Notion MeetingDiary (source — read only)
 | Feed | Audience | Cadence | Signal types |
 |------|----------|---------|--------------|
 | `client_meeting_feed` | Senior leaders | Daily — 3 signals per call | All 12 types |
-| `product_digest_feed` | PM & EA | Critical gaps same-day; weekly digest Monday | gap, limit, expectation |
+| `product_digest_feed` | PM & EA | Critical gaps same-day; weekly digest Monday | feature-gap, limit, expectation |
 | `marketing_feed` | Marketing | Per positive signal | positive |
 
 ---
@@ -125,9 +125,9 @@ Full documentation: [Signal Taxonomy — Notion](https://app.notion.com/p/hylyai
 
 | Category | Signal types | Owner |
 |----------|-------------|-------|
-| Enablement | knowledge, skill, asset, response | KM + CSM Ops |
-| Communication | comms, positioning | CSM Ops |
+| Enablement | knowledge, skill, asset | CSM Ops |
+| Communication | comms, positioning, response | CSM Ops |
 | Operations | process | CSM Ops |
-| Product | gap, expectation, limit | PM |
+| Product | feature-gap, expectation, limit | PM |
 | Competitive | competitor | EA + Sales |
 | Relationship | positive | Marketing |

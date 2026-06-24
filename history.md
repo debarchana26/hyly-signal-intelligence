@@ -77,6 +77,14 @@ Add a new dated entry for every behavior-affecting change. Keep entries terse.
   out and remind to update `history.md`.
 - Documented the file policy in `CLAUDE.md`.
 
+### 2026-06-24 — taxonomy corrections
+- Renamed signal type `gap` → `feature-gap` (clearer). Migrated the 2 existing theme
+  files (`feature-gap-product-*.md`) and updated their `theme_slug`/`signal_type`
+  frontmatter; updated slug examples in `CLAUDE.md` and skill Step 4.
+- Enablement signal types (`knowledge`, `skill`, `asset`) owner changed `KM` → `CSM Ops`.
+- Moved `response` from the `enablement` category to `communication` (owner `CSM Ops`).
+- Updated the README routing/owner tables to match.
+
 ### 2026-06-24 — single GChat card template
 - Removed the redundant `config/gchat-card-templates.json` (static 3-slot version).
 - `config/gchat-templates.json` (dynamic, handles N signals) is now the sole card source.
