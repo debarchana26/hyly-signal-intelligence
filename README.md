@@ -125,7 +125,7 @@ Full documentation: [Signal Taxonomy — Notion](https://app.notion.com/p/hylyai
 
 | Category | Signal types | Owner |
 |----------|-------------|-------|
-| Enablement | knowledge, skill, asset, response | KM |
+| Enablement | knowledge, skill, asset, response | KM + CSM Ops |
 | Communication | comms, positioning | CSM Ops |
 | Operations | process | CSM Ops |
 | Product | gap, expectation, limit | PM |
