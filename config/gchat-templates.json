@@ -1,0 +1,132 @@
+{
+  "client_meeting_card": {
+    "description": "Card for client meeting with signals",
+    "template": {
+      "cardsV2": [{
+        "cardId": "{client_slug}-{date}",
+        "card": {
+          "header": {
+            "title": "{warning_emoji}Client Meeting · {client_name}",
+            "subtitle": "{date} · Hyly lead: {hyly_lead}{fallback_text}"
+          },
+          "sections": "{dynamic_sections}"
+        }
+      }]
+    }
+  },
+  
+  "signal_widget_template": {
+    "widgets": [
+      {"textParagraph": {"text": "<b>{number}. {severity_emoji} {severity_label} · {signal_category}</b>"}},
+      {"textParagraph": {"text": "<b>{signal_title}</b>"}},
+      {"textParagraph": {"text": "<font color=\"#888888\">Why it matters</font>\n{why_it_matters}"}}
+    ]
+  },
+  
+  "links_section": {
+    "header": "Links",
+    "widgets": [
+      {"buttonList": {"buttons": [{"text": "OPEN IN NOTION", "onClick": {"openLink": {"url": "{notion_url}"}}}]}}
+    ]
+  },
+  
+  "product_digest_critical": {
+    "cardsV2": [{
+      "cardId": "critical-{date}-{signal_slug}",
+      "card": {
+        "header": {
+          "title": "🚨 Critical Gap Alert",
+          "subtitle": "{client} — {date} — {hyly_lead}"
+        },
+        "sections": [
+          {
+            "widgets": [
+              {"textParagraph": {"text": "<b>Signal</b>: {theme_slug}"}},
+              {"textParagraph": {"text": "<b>MRR</b>: ${mrr}/month"}},
+              {"textParagraph": {"text": "<b>Severity</b>: Critical"}},
+              {"textParagraph": {"text": "<i>\"{verbatim_quote}\"</i>"}},
+              {"textParagraph": {"text": "<b>Action Required</b>: PM to confirm owner and response plan before end of day"}}
+            ]
+          },
+          {
+            "widgets": [
+              {"buttonList": {"buttons": [{"text": "VIEW IN NOTION", "onClick": {"openLink": {"url": "{notion_url}"}}}]}}
+            ]
+          }
+        ]
+      }
+    }]
+  },
+  
+  "weekly_product_digest": {
+    "cardsV2": [{
+      "cardId": "weekly-digest-{week_start}",
+      "card": {
+        "header": {
+          "title": "📊 Weekly Product Digest",
+          "subtitle": "{week_start} - {week_end}"
+        },
+        "sections": [
+          {
+            "header": "Summary",
+            "widgets": [
+              {"textParagraph": {"text": "<b>{total_gaps} product signals this week</b>"}},
+              {"textParagraph": {"text": "🔴 {critical_count} Critical - Immediate PM attention required"}},
+              {"textParagraph": {"text": "🟡 {high_count} High - Address this sprint"}}
+            ]
+          },
+          {
+            "header": "🔴 CRITICAL GAPS",
+            "widgets": "{critical_widgets}"
+          },
+          {
+            "header": "🟡 HIGH PRIORITY",
+            "widgets": "{high_widgets}"
+          },
+          {
+            "header": "Required Actions",
+            "widgets": [
+              {"textParagraph": {"text": "1. PM to review critical gaps before Monday standup\n2. Assign owners to high priority items\n3. Update roadmap with recurring themes"}}
+            ]
+          },
+          {
+            "widgets": [
+              {"buttonList": {"buttons": [{"text": "VIEW ALL THEMES", "onClick": {"openLink": {"url": "https://github.com/debarchana26/hyly-signal-intelligence/tree/main/themes"}}}]}}
+            ]
+          }
+        ]
+      }
+    }]
+  },
+  
+  "positive_signal": {
+    "cardsV2": [{
+      "cardId": "positive-{date}-{client_slug}",
+      "card": {
+        "header": {
+          "title": "🟢 Positive Signal",
+          "subtitle": "{client} — {date} — {hyly_lead}"
+        },
+        "sections": [
+          {
+            "widgets": [
+              {"textParagraph": {"text": "<b>Subtype</b>: {positive_subtype}"}},
+              {"textParagraph": {"text": "<b>MRR</b>: ${mrr}/month"}},
+              {"textParagraph": {"text": "<i>\"{verbatim_quote}\"</i>"}},
+              {"textParagraph": {"text": "<b>Suggested Action</b>: {suggested_action}"}}
+            ]
+          },
+          {
+            "widgets": [
+              {"buttonList": {"buttons": [{"text": "VIEW IN NOTION", "onClick": {"openLink": {"url": "{notion_url}"}}}]}}
+            ]
+          }
+        ]
+      }
+    }]
+  },
+  
+  "no_calls_text": "ℹ️ No client meetings found on {date}",
+  
+  "missing_transcript_internal": "Missing transcript: {client} - {meeting_type} ({date}) - Lead: {hyly_lead}"
+}

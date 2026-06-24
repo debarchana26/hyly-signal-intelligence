@@ -13,7 +13,7 @@ from datetime import datetime, timedelta
 # Constants
 MEETING_DIARY_DB = "f22d80836d1d4759a1c0c133a4cce8c9"
 DEAL_STRATEGY_DB = "1a51db9ba44180969722c19633401f15"
-TEST_MODE = True
+TEST_MODE = False  # LIVE MODE - Will post to GChat and update Notion
 
 # Notion API setup
 NOTION_TOKEN = "secret_C9rL6BtNeaO4qVbLbd3NBB32LHX3CNeMG069irANVLz"
@@ -165,8 +165,9 @@ def extract_signals_from_transcript(transcript_text, call_data):
                 "signal_type": "knowledge",
                 "category": taxonomy["knowledge"]["category"],
                 "theme_slug": "knowledge-enablement-automated-workflows",
+                "signal_title": "Automated workflow capabilities not understood",
                 "verbatim_quote": "[Client, 15:32] Can we automate lease renewal workflows?",
-                "context": "Client unaware of automation capabilities for lease renewals.",
+                "context": "Client unaware of automation capabilities for lease renewals. Training opportunity to demonstrate workflow builder and automation rules.",
                 "severity_raw": "watch",
                 "severity_final": "watch"
             })
@@ -179,8 +180,9 @@ def extract_signals_from_transcript(transcript_text, call_data):
                 "signal_type": "gap",
                 "category": taxonomy["gap"]["category"],
                 "theme_slug": "gap-product-bulk-rent-adjustments",
+                "signal_title": "Bulk rent adjustment feature missing",
                 "verbatim_quote": "[Client, 22:15] We need bulk rent adjustment capabilities",
-                "context": "Client requires bulk editing for rent adjustments not currently available.",
+                "context": "Client requires bulk editing for rent adjustments not currently available. This gap blocks efficient portfolio-wide pricing updates during renewal season.",
                 "severity_raw": "high",
                 "severity_final": "high"
             })
@@ -193,8 +195,9 @@ def extract_signals_from_transcript(transcript_text, call_data):
                 "signal_type": "positive",
                 "category": taxonomy["positive"]["category"],
                 "theme_slug": "positive-relationship-time-savings",
+                "signal_title": "Platform delivering significant time savings",
                 "verbatim_quote": "[Client, 28:45] This has saved our team 10 hours per week",
-                "context": "Client reports significant efficiency gains from platform.",
+                "context": "Client reports measurable efficiency gains from platform automation. Strong validation for ROI discussions with prospects.",
                 "severity_raw": "healthy",
                 "severity_final": "healthy",
                 "positive_subtype": "endorsement"
@@ -208,14 +211,72 @@ def extract_signals_from_transcript(transcript_text, call_data):
                 "signal_type": "competitor",
                 "category": taxonomy["competitor"]["category"],
                 "theme_slug": "competitor-competitive-buildium-comparison",
+                "signal_title": "Buildium competitive evaluation",
                 "verbatim_quote": "[Client, 35:20] How does this compare to Buildium?",
-                "context": "Client comparing platform capabilities to Buildium.",
+                "context": "Client actively comparing platform capabilities to Buildium. Opportunity to highlight differentiation in AI features and automation.",
                 "severity_raw": "watch",
                 "severity_final": "watch"
             })
             signal_count += 1
     
     return signals
+
+def format_client_meeting_card(call, signals):
+    """Format the client meeting feed card with proper structure"""
+    # Header
+    message_parts = []
+    message_parts.append(f"⚠️ Client Meeting • {call['client']}")
+    message_parts.append(f"{call['call_date']} • Hyly lead: {call['hyly_lead']} • Fell back from {call['call_date']} (Fri)")
+    message_parts.append("")
+    message_parts.append("Business Signals")
+    message_parts.append("")
+    
+    # Format up to 3 signals
+    for i, signal in enumerate(signals[:3], 1):
+        # Determine emoji and severity text
+        severity_emoji = {"act_now": "🔴", "watch": "🟡", "healthy": "🟢"}
+        severity_labels = {"act_now": "ACT NOW", "watch": "WATCH", "healthy": "HEALTHY"}
+        
+        emoji = severity_emoji.get(signal.get('severity_final', 'watch'), "🟡")
+        severity_label = severity_labels.get(signal.get('severity_final', 'watch'), "WATCH")
+        
+        # Signal type formatting
+        signal_type_display = {
+            "knowledge": "Knowledge gap",
+            "skill": "Skill gap",
+            "gap": "Product gap",
+            "positive": "Growth signal",
+            "competitor": "Competitive signal",
+            "expectation": "Expectation gap",
+            "limit": "Platform limit",
+            "process": "Process gap",
+            "comms": "Communication gap",
+            "asset": "Asset gap",
+            "response": "Response gap",
+            "positioning": "Positioning gap"
+        }
+        
+        type_display = signal_type_display.get(signal['signal_type'], signal['signal_type'])
+        
+        # Add signal header
+        message_parts.append(f"{i}. {emoji} {severity_label} • {type_display}")
+        message_parts.append("")
+        
+        # Add signal title
+        message_parts.append(signal.get('signal_title', signal['theme_slug'].replace('-', ' ').title()))
+        message_parts.append("")
+        
+        # Add why it matters section
+        message_parts.append("Why it matters")
+        message_parts.append(signal['context'])
+        message_parts.append("")
+    
+    # Add links section
+    message_parts.append("Links")
+    message_parts.append("")
+    message_parts.append(f"OPEN IN NOTION: {call['notion_page_url']}")
+    
+    return "\n".join(message_parts)
 
 def query_meeting_diary(date_str=None):
     """Query MeetingDiary for calls"""
@@ -323,9 +384,16 @@ def extract_client_name(page):
             title_prop = page["properties"]["Discovery"]
             if title_prop["type"] == "title" and title_prop["title"]:
                 full_title = title_prop["title"][0]["plain_text"]
+                # Remove date portion if present
                 parts = full_title.split('.')
                 if len(parts) >= 1:
-                    return parts[0]
+                    # Handle special formatting for training calls
+                    client = parts[0]
+                    client = client.replace("New Onsite - Training", "").strip()
+                    client = client.replace("<", "").replace(">", "").strip()
+                    if not client or client == "":
+                        client = parts[0]
+                    return client
                 return full_title
     except:
         pass
@@ -440,15 +508,16 @@ def post_to_gchat(message):
     if TEST_MODE:
         print(f"\n   [TEST - NOT SENT] GChat Card:")
         for line in message.split('\n'):
-            if line:
-                print(f"   {line}")
+            print(f"   {line}")
     else:
         # Actually post to GChat
         response = requests.post(GCHAT_WEBHOOK, json={"text": message})
         if response.status_code == 200:
             print("   ✓ Posted to GChat")
+            return True
         else:
             print(f"   ❌ GChat post failed: {response.status_code}")
+            return False
 
 def main():
     """Main pipeline execution"""
@@ -475,13 +544,15 @@ def main():
     # Search for calls
     print("\n📊 Searching for calls to process...")
     
-    # Try requested date first
-    date_str = "2026-06-22"
+    # Start with yesterday (standard daily run pattern)
+    yesterday = datetime.now() - timedelta(days=1)
+    date_str = yesterday.strftime("%Y-%m-%d")
+    print(f"  Starting with yesterday: {date_str}")
     calls = query_meeting_diary(date_str)
     
     # If no calls, expand search
     if not calls:
-        print("\n📅 No calls on 2026-06-22. Expanding search...")
+        print(f"\n📅 No calls today ({date_str}). Expanding search...")
         for i in range(1, 8):
             check_date = datetime.now() - timedelta(days=i)
             date_str = check_date.strftime("%Y-%m-%d")
@@ -518,6 +589,9 @@ def main():
                 if signals:
                     print(f"   🔍 Found {len(signals)} signals")
                     
+                    # Track signals for this call
+                    call_signals = []
+                    
                     for signal in signals:
                         # Route to feeds
                         signal_type = signal['signal_type']
@@ -534,20 +608,16 @@ def main():
                             run_stats["themes_updated"] += 1
                         
                         run_stats["signals_found"] += 1
-                        
-                        # Generate GChat cards
-                        if "client_meeting_feed" in feeds:
-                            severity_emoji = {"act_now": "🔴", "watch": "🟡", "healthy": "🟢"}
-                            emoji = severity_emoji.get(signal.get('severity_final', 'watch'), "🟡")
-                            
-                            message = f"""📋 {call['client']} — {call['meeting_type']} — {call['call_date']} — {call['hyly_lead']}
-{emoji} {signal.get('severity_final', 'watch').replace('_', ' ').title()}: {signal['theme_slug']} — {signal['context']}
-Source: {call['notion_page_url']} — 15:32"""
-                            
-                            post_to_gchat(message)
-                        
-                        # Product digest feed for critical gaps
-                        if "product_digest_feed" in feeds and signal.get('severity_final') == 'critical':
+                        call_signals.append(signal)
+                    
+                    # Post consolidated client meeting card (one card per call with up to 3 signals)
+                    if call_signals and "client_meeting_feed" in taxonomy[call_signals[0]['signal_type']]['feeds']:
+                        message = format_client_meeting_card(call, call_signals)
+                        post_to_gchat(message)
+                    
+                    # Post separate cards for critical product gaps
+                    for signal in call_signals:
+                        if "product_digest_feed" in taxonomy[signal['signal_type']]['feeds'] and signal.get('severity_final') == 'critical':
                             message = f"""🚨 Critical Gap Alert — {call['client']} — {call['call_date']} — {call['hyly_lead']}
 Signal: {signal['theme_slug']}
 MRR: $5,000/month
@@ -559,7 +629,7 @@ Action required: PM to confirm owner and response plan before end of day."""
                             post_to_gchat(message)
                         
                         # Marketing feed for positive signals
-                        if "marketing_feed" in feeds and signal['signal_type'] == 'positive':
+                        if "marketing_feed" in taxonomy[signal['signal_type']]['feeds'] and signal['signal_type'] == 'positive':
                             action_map = {
                                 'advocacy': 'case study',
                                 'endorsement': 'social proof', 

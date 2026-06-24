@@ -10,6 +10,8 @@
     "CSM Success Call",
     "CSM Pre-Kickoff",
     "CSM Kick Off",
+    "CSM Training",
+    "CSM Townhalls",
     "Sales Halo Discovery",
     "Sales Hayley Discovery",
     "Sales Halo Demo",
@@ -22,7 +24,11 @@
     "Sales Client Call",
     "Growth: Discovery",
     "Growth: Demo",
-    "Growth: Sales Alignment"
+    "Growth: Sales Alignment",
+    "Onboarding",
+    "New - Onsite Training",
+    "Retraining - Onsite Teams",
+    "Support Office Hours"
   ],
 
   "transcript_fields_priority": [

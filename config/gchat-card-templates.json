@@ -1,0 +1,263 @@
+{
+  "client_meeting_card": {
+    "cardsV2": [
+      {
+        "cardId": "client-meeting-{meeting_id}",
+        "card": {
+          "header": {
+            "title": "⚠️ Client Meeting • {client}",
+            "subtitle": "{call_date} • Hyly lead: {hyly_lead}"
+          },
+          "sections": [
+            {
+              "header": "Business Signals",
+              "widgets": [
+                {
+                  "decoratedText": {
+                    "topLabel": "{signal_1_emoji} {signal_1_severity} • {signal_1_type}",
+                    "text": "<b>{signal_1_title}</b>",
+                    "bottomLabel": "Why it matters: {signal_1_context}"
+                  }
+                },
+                {
+                  "decoratedText": {
+                    "topLabel": "{signal_2_emoji} {signal_2_severity} • {signal_2_type}",
+                    "text": "<b>{signal_2_title}</b>",
+                    "bottomLabel": "Why it matters: {signal_2_context}"
+                  }
+                },
+                {
+                  "decoratedText": {
+                    "topLabel": "{signal_3_emoji} {signal_3_severity} • {signal_3_type}",
+                    "text": "<b>{signal_3_title}</b>",
+                    "bottomLabel": "Why it matters: {signal_3_context}"
+                  }
+                }
+              ]
+            },
+            {
+              "header": "Links",
+              "widgets": [
+                {
+                  "buttonList": {
+                    "buttons": [
+                      {
+                        "text": "OPEN IN NOTION",
+                        "onClick": {
+                          "openLink": {
+                            "url": "{notion_page_url}"
+                          }
+                        }
+                      }
+                    ]
+                  }
+                }
+              ]
+            }
+          ]
+        }
+      }
+    ]
+  },
+  
+  "product_digest_critical": {
+    "cardsV2": [
+      {
+        "cardId": "critical-gap-{signal_id}",
+        "card": {
+          "header": {
+            "title": "🚨 Critical Gap Alert",
+            "subtitle": "{client} — {call_date} — {hyly_lead}"
+          },
+          "sections": [
+            {
+              "widgets": [
+                {
+                  "decoratedText": {
+                    "topLabel": "Signal",
+                    "text": "<b>{theme_slug}</b>"
+                  }
+                },
+                {
+                  "decoratedText": {
+                    "topLabel": "MRR",
+                    "text": "<b>${mrr}/month</b>"
+                  }
+                },
+                {
+                  "decoratedText": {
+                    "topLabel": "Severity",
+                    "text": "<b>Critical</b>"
+                  }
+                },
+                {
+                  "textParagraph": {
+                    "text": "<i>\"{verbatim_quote}\"</i>"
+                  }
+                },
+                {
+                  "decoratedText": {
+                    "topLabel": "Action Required",
+                    "text": "PM to confirm owner and response plan before end of day"
+                  }
+                }
+              ]
+            },
+            {
+              "widgets": [
+                {
+                  "buttonList": {
+                    "buttons": [
+                      {
+                        "text": "VIEW IN NOTION",
+                        "onClick": {
+                          "openLink": {
+                            "url": "{notion_page_url}"
+                          }
+                        }
+                      }
+                    ]
+                  }
+                }
+              ]
+            }
+          ]
+        }
+      }
+    ]
+  },
+  
+  "weekly_product_digest": {
+    "cardsV2": [
+      {
+        "cardId": "weekly-digest-{week}",
+        "card": {
+          "header": {
+            "title": "📊 Weekly Product Digest",
+            "subtitle": "{week_start} - {week_end}",
+            "imageUrl": "https://fonts.gstatic.com/s/i/googlematerialicons/insights/v6/24px.svg",
+            "imageType": "CIRCLE"
+          },
+          "sections": [
+            {
+              "header": "Summary",
+              "widgets": [
+                {
+                  "textParagraph": {
+                    "text": "<b>{total_gaps} product signals this week</b>"
+                  }
+                },
+                {
+                  "decoratedText": {
+                    "startIcon": {
+                      "knownIcon": "BOOKMARK"
+                    },
+                    "text": "🔴 {critical_count} Critical - Immediate PM attention required"
+                  }
+                },
+                {
+                  "decoratedText": {
+                    "startIcon": {
+                      "knownIcon": "CLOCK"
+                    },
+                    "text": "🟡 {high_count} High - Address this sprint"
+                  }
+                }
+              ]
+            },
+            {
+              "header": "🔴 CRITICAL GAPS",
+              "collapsible": false,
+              "widgets": {critical_gaps_widgets}
+            },
+            {
+              "header": "🟡 HIGH PRIORITY",
+              "collapsible": true,
+              "widgets": {high_priority_widgets}
+            },
+            {
+              "header": "Required Actions",
+              "widgets": [
+                {
+                  "textParagraph": {
+                    "text": "1. PM to review critical gaps before Monday standup\n2. Assign owners to high priority items\n3. Update roadmap with recurring themes"
+                  }
+                }
+              ]
+            }
+          ]
+        }
+      }
+    ]
+  },
+  
+  "positive_signal": {
+    "cardsV2": [
+      {
+        "cardId": "positive-{signal_id}",
+        "card": {
+          "header": {
+            "title": "🟢 Positive Signal",
+            "subtitle": "{client} — {call_date} — {hyly_lead}"
+          },
+          "sections": [
+            {
+              "widgets": [
+                {
+                  "decoratedText": {
+                    "topLabel": "Subtype",
+                    "text": "<b>{positive_subtype}</b>"
+                  }
+                },
+                {
+                  "decoratedText": {
+                    "topLabel": "MRR",
+                    "text": "<b>${mrr}/month</b>"
+                  }
+                },
+                {
+                  "textParagraph": {
+                    "text": "<i>\"{verbatim_quote}\"</i>"
+                  }
+                },
+                {
+                  "decoratedText": {
+                    "topLabel": "Suggested Action",
+                    "text": "{suggested_action}"
+                  }
+                }
+              ]
+            },
+            {
+              "widgets": [
+                {
+                  "buttonList": {
+                    "buttons": [
+                      {
+                        "text": "VIEW IN NOTION",
+                        "onClick": {
+                          "openLink": {
+                            "url": "{notion_page_url}"
+                          }
+                        }
+                      }
+                    ]
+                  }
+                }
+              ]
+            }
+          ]
+        }
+      }
+    ]
+  },
+  
+  "no_calls_found": {
+    "text": "ℹ️ No client meetings found on {date}"
+  },
+  
+  "missing_transcript_log": {
+    "_comment": "This is just logged internally, not sent to GChat",
+    "log_format": "Missing transcript: {client} - {meeting_type} ({date}) - Lead: {hyly_lead}"
+  }
+}
