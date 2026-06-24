@@ -162,9 +162,15 @@ def format_weekly_digest(signals):
         # Get Notion URL from most recent occurrence
         notion_url = recent_occ['notion_url'] if recent_occ else "https://notion.so"
         
+        # Get description/summary (1-2 lines)
+        description = signal.get('description', 'Signal detected')
+        if len(description) > 120:
+            description = description[:117] + "..."
+        
         critical_widgets.append({
             "textParagraph": {
                 "text": f"<b>🔴 {signal['theme_slug']}</b>\n" +
+                        f"{description}\n" +
                         f"Clients: {signal['client_count']} | Status: {signal['status']}\n" +
                         f"<i>\"{verbatim_quote}\"</i>\n" +
                         f"<a href=\"{notion_url}\">View in Notion</a>"
@@ -181,9 +187,15 @@ def format_weekly_digest(signals):
         recent_occ = signal['recent_occurrences'][0] if signal['recent_occurrences'] else None
         notion_url = recent_occ['notion_url'] if recent_occ else "https://notion.so"
         
+        # Get description/summary (1-2 lines)
+        description = signal.get('description', 'Signal detected')
+        if len(description) > 120:
+            description = description[:117] + "..."
+        
         high_widgets.append({
             "textParagraph": {
                 "text": f"<b>🟡 {signal['theme_slug']}</b>\n" +
+                        f"{description}\n" +
                         f"Clients: {signal['client_count']} | Status: {signal['status']}\n" +
                         f"<a href=\"{notion_url}\">View in Notion</a>"
             }
@@ -239,18 +251,6 @@ def format_weekly_digest(signals):
                         "header": "🟡 HIGH PRIORITY",
                         "collapsible": True,
                         "widgets": high_widgets
-                    },
-                    {
-                        "header": "Required Actions",
-                        "widgets": [
-                            {
-                                "textParagraph": {
-                                    "text": "1. PM to review critical gaps before Monday standup\n" +
-                                            "2. Assign owners to high priority items\n" +
-                                            "3. Update roadmap with recurring themes"
-                                }
-                            }
-                        ]
                     },
                     {
                         "widgets": [
