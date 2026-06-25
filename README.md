@@ -66,8 +66,8 @@ README.md                 This file.
 ## Triggering
 
 ### Scheduled
-- Daily ingest: Mon–Fri at 09:00 UTC
-- Weekly digest: Monday at 10:00 UTC (after daily ingest)
+- Daily ingest: Mon–Fri at 04:00 AM EST
+- Weekly digest: Monday at 05:00 AM EST(after daily ingest)
 
 ### Manual via GitHub UI
 Actions → Daily Signal Ingest → Run workflow
