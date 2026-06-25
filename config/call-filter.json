@@ -32,8 +32,8 @@
   ],
 
   "transcript_fields_priority": [
-    "[NEW] GDrive Transcript URL",
-    "GDrive Transcript URL"
+    "GDrive Transcript URL",
+    "[NEW] GDrive Transcript URL"
   ],
 
   "transcript_required": true
