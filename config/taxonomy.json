@@ -1,14 +1,14 @@
 {
-  "knowledge":    { "category": "enablement",    "owner": "CSM Ops",   "feeds": ["client_meeting_feed"] },
-  "skill":        { "category": "enablement",    "owner": "CSM Ops",   "feeds": ["client_meeting_feed"] },
-  "asset":        { "category": "enablement",    "owner": "CSM Ops",   "feeds": ["client_meeting_feed"] },
-  "comms":        { "category": "communication", "owner": "CSM Ops",   "feeds": ["client_meeting_feed"] },
-  "positioning":  { "category": "communication", "owner": "CSM Ops",   "feeds": ["client_meeting_feed"] },
-  "response":     { "category": "communication", "owner": "CSM Ops",   "feeds": ["client_meeting_feed"] },
-  "process":      { "category": "operations",    "owner": "CSM Ops",   "feeds": ["client_meeting_feed"] },
-  "feature-gap":  { "category": "product",       "owner": "PM",        "feeds": ["client_meeting_feed", "product_digest_feed"] },
-  "expectation":  { "category": "product",       "owner": "PM",        "feeds": ["client_meeting_feed", "product_digest_feed"] },
-  "limit":        { "category": "product",       "owner": "PM",        "feeds": ["client_meeting_feed", "product_digest_feed"] },
-  "competitor":   { "category": "competitive",   "owner": "EA+Sales",  "feeds": ["client_meeting_feed"] },
-  "positive":     { "category": "relationship",  "owner": "Marketing", "feeds": ["client_meeting_feed", "marketing_feed"] }
+  "knowledge":    { "definition": "Client is unaware of a platform capability that already exists — they ask for something the product already does, or express a need a current feature would solve.", "category": "enablement",    "owner": "CSM Ops",   "feeds": ["client_meeting_feed"] },
+  "skill":        { "definition": "The Hyly rep misses an opportunity to surface a relevant feature, or frames/demos a capability incorrectly. A coaching gap on the Hyly side, not a product gap.", "category": "enablement",    "owner": "CSM Ops",   "feeds": ["client_meeting_feed"] },
+  "asset":        { "definition": "A training material, guide, help doc, or template that should exist is missing — the client (or rep) needs a resource that isn't available.", "category": "enablement",    "owner": "CSM Ops",   "feeds": ["client_meeting_feed"] },
+  "comms":        { "definition": "Client discovers a product limitation live on the call — a gap or constraint surfaces in the moment rather than being known in advance.", "category": "communication", "owner": "CSM Ops",   "feeds": ["client_meeting_feed"] },
+  "positioning":  { "definition": "The Hyly rep struggles to deliver competitive or change-management messaging — fumbles a 'why Hyly vs X' or a 'why this change' narrative.", "category": "communication", "owner": "CSM Ops",   "feeds": ["client_meeting_feed"] },
+  "response":     { "definition": "The Hyly rep gives an inconsistent or incorrect answer to a recurring client question — the same question gets different answers across calls/reps.", "category": "communication", "owner": "CSM Ops",   "feeds": ["client_meeting_feed"] },
+  "process":      { "definition": "A broken or missing pre-/post-training or operational workflow — handoffs, follow-ups, data setup, or onboarding steps that didn't happen as they should.", "category": "operations",    "owner": "CSM Ops",   "feeds": ["client_meeting_feed"] },
+  "feature-gap":  { "definition": "Client explicitly requests a feature the platform does not have. A genuine product gap (distinct from 'knowledge', where the feature already exists).", "category": "product",       "owner": "PM",        "feeds": ["client_meeting_feed", "product_digest_feed"] },
+  "expectation":  { "definition": "Client held a wrong expectation about how the product works or what it would deliver — a mismatch between what they believed they bought and reality.", "category": "product",       "owner": "PM",        "feeds": ["client_meeting_feed", "product_digest_feed"] },
+  "limit":        { "definition": "Client hits a hard platform constraint — a ceiling, quota, or scale boundary the product enforces (e.g. property count, send volume, field limits).", "category": "product",       "owner": "PM",        "feeds": ["client_meeting_feed", "product_digest_feed"] },
+  "competitor":   { "definition": "A competitor is named on the call — the client mentions evaluating, using, or comparing against another vendor.", "category": "competitive",   "owner": "EA+Sales",  "feeds": ["client_meeting_feed"] },
+  "positive":     { "definition": "A positive relationship signal: advocacy, endorsement, expansion intent, or a trust signal. Set positive_subtype to one of advocacy | endorsement | expansion_intent | trust_signal.", "category": "relationship",  "owner": "Marketing", "feeds": ["client_meeting_feed", "marketing_feed"] }
 }

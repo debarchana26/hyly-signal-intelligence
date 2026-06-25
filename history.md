@@ -85,6 +85,23 @@ Add a new dated entry for every behavior-affecting change. Keep entries terse.
 - Moved `response` from the `enablement` category to `communication` (owner `CSM Ops`).
 - Updated the README routing/owner tables to match.
 
+### 2026-06-25 — explicit date range, taxonomy definitions, rule docs
+- **Skill Step 1 — date-range bug fix:** the skill now honors explicit `Date range:` and
+  `Client filter:` inputs passed from `daily-ingest.yml`, instead of always computing the
+  default window. Single date or `YYYY-MM-DD..YYYY-MM-DD` range; no auto-expand when given.
+  Clarified there is no cap on calls processed ("top 3" is signals per call, not calls) and
+  that only `Recent Client Meeting` pages are processed (never `Upcoming`).
+- **taxonomy.json:** added a `definition` for each of the 12 signal types; made it the
+  authoritative source for type boundaries (skill Step 4 now points to it).
+- **Skill Steps 4/5/7 — made implicit rules explicit:** added the content severity rubric,
+  documented revenue promotion as the only promotion path, defined how a Critical Gap is
+  selected, and defined how the top-3 client-meeting signals are ranked.
+- **weekly-digest.yml:** fixed stale signal type `gap` → `feature-gap`.
+- **Removed `setup_pipeline.sh`** — legacy Python setup that contradicted the no-Python /
+  Claude-skill policy. Real setup (enable git hooks) now documented in README.
+- **README:** rewrote with a complete architecture diagram, a description of every file,
+  setup/triggering, and the selection & promotion rules.
+
 ### 2026-06-24 — single GChat card template
 - Removed the redundant `config/gchat-card-templates.json` (static 3-slot version).
 - `config/gchat-templates.json` (dynamic, handles N signals) is now the sole card source.

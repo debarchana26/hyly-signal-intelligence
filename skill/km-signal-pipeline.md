@@ -27,11 +27,27 @@ TEST_MODE = true
 
 ## Step 1 — Date window + call query
 
-**Date window:**
+**Explicit inputs (override the default window):**
+The run prompt may carry `Date range: <value>` and/or `Client filter: <name>`
+(passed from `daily-ingest.yml` workflow_dispatch inputs). Honor them before
+computing any default window:
+- `Date range` present → use exactly that range as the date window. Accept a single
+  date (`YYYY-MM-DD`) or an inclusive range (`YYYY-MM-DD..YYYY-MM-DD`). Do NOT fall
+  back to the Monday/yesterday logic, and do NOT auto-expand when a range is given.
+- `Client filter` present → additionally require the page title (`Discovery`) to start
+  with that client name. Match case-insensitively.
+- Neither present → use the default window below.
+
+**Default date window (no explicit inputs):**
 - Monday: prior Mon–Fri
 - All other days: yesterday
 - No results found: expand back 1 day per iteration, max 7 days
 - All calls in window already have `Added to Google Chat = true`: print "Nothing new" and stop
+
+**Process every qualifying call in the window — there is no cap on the number of
+calls.** ("Top 3" in Step 7 refers to signals shown *per call* in one feed, not a
+limit on calls.) Only `Status = Recent Client Meeting` pages are processed; `Upcoming`
+meetings are never processed and never posted to Google Chat.
 
 **Query MeetingDiary** using `notion-search`:
 - `Status` = values in `call-filter.json → status`
@@ -83,7 +99,10 @@ Use the first non-empty value.
 
 ## Step 4 — Signal analysis (single pass, max 6 signals per call)
 
-Read routing from `config/taxonomy.json`.
+Read routing **and the definition of each signal type** from `config/taxonomy.json`.
+The `definition` field on each type is the canonical test for whether an observation
+is that signal — match against it, do not improvise type boundaries. The short list at
+the bottom of this step is a quick index only; `taxonomy.json` is authoritative.
 
 For each signal extract:
 - `signal_type` — one of the 12 types in taxonomy.json
@@ -94,7 +113,18 @@ For each signal extract:
   - Check `themes/` directory first — if a matching theme file exists, use its exact slug
 - `verbatim_quote` — 50–120 chars, include speaker name and transcript timestamp: `"[Speaker, HH:MM] quote text"`
 - `context` — 1 sentence explaining what the observation reveals
-- `severity_raw` — based on content: use severity scale from `mrr-thresholds.json → severity_scales` for the target feed
+- `severity_raw` — assign per the rubric below using the scale for the target feed from
+  `mrr-thresholds.json → severity_scales`. (Product signals carry a product-feed severity;
+  every signal also carries a client-feed severity.)
+
+  **Severity rubric (content-only, before revenue weighting):**
+
+  | client_meeting_feed | product_digest_feed | When to assign |
+  |---|---|---|
+  | `act_now` | `high` | Blocks the client's stated goal now, churn/escalation language, or an explicit ask with a deadline. |
+  | `watch`   | `medium` | Friction or a gap that matters but has a workaround / no immediate deadline. |
+  | `healthy` | `low` | Informational, minor, or positive-leaning; no action needed yet. |
+  | —         | `critical` | Reserved — only reached via the revenue bump in Step 5. Do **not** assign `critical` from content alone. |
 - `positive_subtype` — if `positive`: one of `advocacy | endorsement | expansion_intent | trust_signal`
 
 **Detect all 12 types:**
@@ -113,11 +143,18 @@ For each signal extract:
 
 ---
 
-## Step 5 — Revenue weighting
+## Step 5 — Revenue weighting (severity promotion)
 
-For each signal where `mrr_tier = high`:
-Apply bump rules from `mrr-thresholds.json → severity_bump_when_mrr_high` per feed.
-Set `severity_final`.
+This is the **only** promotion step. `severity_final` = `severity_raw` unless the call's
+`mrr_tier = high`, in which case bump it one rung using
+`mrr-thresholds.json → severity_bump_when_mrr_high` for that feed:
+
+- `client_meeting_feed`: `watch → act_now` (an `act_now` stays `act_now`; `healthy` does not bump).
+- `product_digest_feed`: `low → medium`, `medium → high`, `high → critical`.
+
+So a product signal becomes **`critical` only** when its content rubric gave it `high`
+**and** the account is high-MRR (`MRR > mrr-thresholds.json → mrr_high_threshold`). No
+other path reaches `critical`. Set `severity_final` for each feed the signal routes to.
 
 ---
 
@@ -142,7 +179,14 @@ JSON to the `GCHAT_WEBHOOK`. Do NOT hand-build card JSON or invent a different l
 The text blocks below are field-mapping references only — the actual payload comes from
 the template file.
 
-### client_meeting_feed (all calls, top 3 signals per call by severity)
+### client_meeting_feed (every call; top 3 signals per call by severity)
+
+**Selecting the 3 signals:** rank that call's detected signals by `severity_final` on the
+client scale (`act_now` > `watch` > `healthy`); break ties by `mrr_tier` (high first),
+then by order detected. Take the top 3 and map them to the rows below
+(🔴 act_now / 🟡 watch / 🟢 healthy). If the call has fewer than 3 signals, show only
+those. **All** detected signals (up to the Step 4 cap of 6) are still written to `themes/`
+in Step 8 — the top-3 cut applies only to this card.
 
 ```
 📋 [Client] — [Meeting Type] — [YYYY-MM-DD] — [Hyly Lead]
@@ -156,7 +200,12 @@ Source: [Notion URL] — [HH:MM]
 
 ### product_digest_feed
 
-**Immediate (Critical only — any day):**
+**Selecting a Critical Gap:** post this card immediately (any day) for any product signal
+(`feature-gap`, `expectation`, `limit`) whose `severity_final` on the product scale is
+`critical`. Per Step 5 that means a `high`-rubric product signal on a high-MRR account.
+Non-critical product signals are not posted immediately — they are picked up by the
+Monday weekly digest. One card per critical signal.
+
 ```
 🚨 Critical Gap Alert — [Client] — [YYYY-MM-DD] — [Hyly Lead]
 Signal: [theme_slug]
