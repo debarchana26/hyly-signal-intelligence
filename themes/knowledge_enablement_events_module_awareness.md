@@ -1,5 +1,5 @@
 ---
-theme_slug: knowledge-enablement-events-module-awareness
+theme_slug: knowledge_enablement_events_module_awareness
 signal_type: knowledge
 category: enablement
 owner: CSM Ops

@@ -1,5 +1,5 @@
 ---
-theme_slug: knowledge-enablement-blast-email-capabilities
+theme_slug: knowledge_enablement_blast_email_capabilities
 signal_type: knowledge
 category: enablement
 owner: KM

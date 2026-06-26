@@ -29,12 +29,12 @@ Signal pipeline for Hyly.AI client calls. Reads transcripts from Notion MeetingD
                                       │                  │
                   Git (signal log)    │                  │   POST card JSON
                 ┌─────────────────────▼──────┐           ▼   (built from gchat-templates.json)
-                │ themes/[theme-slug].md      │      ┌──────────────────────────────┐
+                │ themes/[theme_slug].md      │      ┌──────────────────────────────┐
                 │   compounding wiki layer    │      │  GChat — 3 feeds              │
                 │ digests/YYYY-WW.md          │      │   client_meeting_feed         │
                 │   weekly compiled digest    │      │   product_digest_feed         │
                 │ feature-requests.md         │      │   marketing_feed              │
-                │   feature-gap rollup ledger │      └──────────────────────────────┘
+                │   feature_gap rollup ledger │      └──────────────────────────────┘
                 └─────────────────────────────┘
                                       │
                                       │ one write back only:
@@ -59,9 +59,9 @@ Signal pipeline for Hyly.AI client calls. Reads transcripts from Notion MeetingD
 | `config/taxonomy.json` | The 12 signal types — each with its **definition**, `category`, `owner`, and target `feeds`. Source of truth for routing and type boundaries. |
 | `config/mrr-thresholds.json` | `mrr_high_threshold`, the per-feed `severity_scales`, and the `severity_bump_when_mrr_high` promotion rules. |
 | `config/gchat-templates.json` | The only source for GChat card JSON (client meeting, critical gap, weekly digest, positive signal). Skill fills placeholders and POSTs. |
-| `themes/[theme-slug].md` | One file per named theme. Frontmatter (`status`, `client_count`, `first_seen`, `last_seen`) + an Occurrences table with a Notion link, quote, and timestamp per sighting. Updated every run. |
+| `themes/[theme_slug].md` | One file per named theme. Frontmatter (`status`, `client_count`, `first_seen`, `last_seen`) + an Occurrences table with a Notion link, quote, and timestamp per sighting. Updated every run. |
 | `digests/YYYY-WW.md` | Weekly compiled product digest, generated Monday and posted to `product_digest_feed`. |
-| `feature-requests.md` | Human-readable running ledger of every `feature-gap` signal — a rollup of the `feature-gap-*` theme files, with title/client/MRR/approval status. Maintained manually. |
+| `feature-requests.md` | Human-readable running ledger of every `feature_gap` signal — a rollup of the `feature_gap_*` theme files, with title/client/MRR/approval status. Maintained manually. |
 | `history.md` | Canonical iteration record. Every behavior-affecting change (skill/config/workflows) adds a dated Change-log entry here. Also documents the removed legacy Python prototypes. |
 | `.github/workflows/daily-ingest.yml` | Daily ingest (Mon–Fri 09:00 UTC + manual dispatch with optional `date_range`/`client_filter`). Installs Claude CLI, configures MCP, runs the skill, commits `themes/`+`digests/`. |
 | `.github/workflows/weekly-digest.yml` | Monday digest (10:00 UTC + manual). Compiles the past 7 days of product signals into `digests/` and posts the weekly card. |
@@ -75,7 +75,7 @@ Signal pipeline for Hyly.AI client calls. Reads transcripts from Notion MeetingD
 | Feed | Audience | Cadence | Signal types |
 |------|----------|---------|--------------|
 | `client_meeting_feed` | Senior leaders | Daily — top 3 signals per call | All 12 types |
-| `product_digest_feed` | PM & EA | Critical gaps same-day; weekly digest Monday | feature-gap, expectation, limit |
+| `product_digest_feed` | PM & EA | Critical gaps same-day; weekly digest Monday | feature_gap, expectation, limit |
 | `marketing_feed` | Marketing | Per positive signal | positive |
 
 ---
@@ -97,7 +97,7 @@ These are the rules that decide what gets surfaced and how loud. Full logic is i
 (`MRR > mrr_high_threshold`, currently $5,000), severity bumps one rung:
 `watch → act_now` on the client feed; `low → medium → high → critical` on the product feed.
 
-**How a Critical Gap is selected.** A product signal (`feature-gap`/`expectation`/`limit`)
+**How a Critical Gap is selected.** A product signal (`feature_gap`/`expectation`/`limit`)
 reaches `critical` **only** when its content rubric was `high` **and** the account is
 high-MRR. Each critical signal posts a 🚨 *Critical Gap Alert* to `product_digest_feed`
 immediately, any day. Non-critical product signals wait for the Monday digest.
@@ -176,7 +176,7 @@ are called by Claude through the configured MCP servers — not direct API calls
 
 ## Reading theme files
 
-Each `themes/[theme-slug].md` file tells you:
+Each `themes/[theme_slug].md` file tells you:
 - What the pattern is (one-line description)
 - How many clients have surfaced it (`client_count`)
 - Current status: `candidate` (1 client) → `emerging` (2) → `theme` (3+)
@@ -196,6 +196,6 @@ Definitions for each type are also in `config/taxonomy.json`.
 | Enablement | knowledge, skill, asset | CSM Ops |
 | Communication | comms, positioning, response | CSM Ops |
 | Operations | process | CSM Ops |
-| Product | feature-gap, expectation, limit | PM |
+| Product | feature_gap, expectation, limit | PM |
 | Competitive | competitor | EA + Sales |
 | Relationship | positive | Marketing |

@@ -1,5 +1,5 @@
 ---
-theme_slug: competitor-competitive-yardi-chatiq-overlap
+theme_slug: competitor_competitive_yardi_chatiq_overlap
 signal_type: competitor
 category: competitive
 owner: EA+Sales

@@ -21,31 +21,31 @@ Do not hardcode any values that exist in these files. If a routing decision is n
 
 A theme slug must follow this exact format:
 ```
-[signal-type]-[category]-[descriptive-name-kebab-case]
+[signal]_[category]_[descriptive_name]
 ```
 
-- `signal-type`: one of the 12 types in taxonomy.json
+- `signal`: one of the 12 types in taxonomy.json
 - `category`: taken from taxonomy.json for that signal type — do not derive independently
-- `descriptive-name`: 3–5 words, kebab-case, specific enough to distinguish from other themes of the same type
+- `descriptive_name`: 3–5 words, snake_case, specific enough to distinguish from other themes of the same type
 
 Before generating a new slug, scan `themes/` for an existing file that matches the observation. If a match exists, use its exact slug — do not create a variant.
 
 Examples of correct slugs:
-- `knowledge-enablement-blast-segmentation-by-building`
-- `feature-gap-product-renewal-drip-automation`
-- `competitor-competitive-elise-ai-coexistence`
-- `positive-relationship-hines-fat-village-expansion-intent`
+- `knowledge_enablement_blast_segmentation_by_building`
+- `feature_gap_product_renewal_drip_automation`
+- `competitor_competitive_elise_ai_coexistence`
+- `positive_relationship_hines_fat_village_expansion_intent`
 
 Examples of incorrect slugs (do not use):
-- `knowledge--blast-segmentation` (missing category, double dash)
-- `feature-gap-renewal-drip` (missing category)
-- `knowledge-blast-email-building-segmentation` (variant of existing slug)
+- `knowledge__blast_segmentation` (missing category, double underscore)
+- `feature_gap_renewal_drip` (missing category)
+- `knowledge_blast_email_building_segmentation` (variant of existing slug)
 
 ---
 
 ## Writing theme files
 
-Every theme file lives in `themes/[theme-slug].md`.
+Every theme file lives in `themes/[theme_slug].md`.
 
 When creating a new theme file, use the template in `skill/km-signal-pipeline.md → Step 8` exactly.
 

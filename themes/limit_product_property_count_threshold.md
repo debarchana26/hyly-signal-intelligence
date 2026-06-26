@@ -1,5 +1,5 @@
 ---
-theme_slug: limit-product-property-count-threshold
+theme_slug: limit_product_property_count_threshold
 signal_type: limit
 category: product
 owner: PM

@@ -1,5 +1,5 @@
 ---
-theme_slug: knowledge-enablement-event-rsvp-cap-edit
+theme_slug: knowledge_enablement_event_rsvp_cap_edit
 signal_type: knowledge
 category: enablement
 owner: CSM Ops

@@ -107,9 +107,9 @@ the bottom of this step is a quick index only; `taxonomy.json` is authoritative.
 For each signal extract:
 - `signal_type` — one of the 12 types in taxonomy.json
 - `category` — from taxonomy.json (do not derive independently)
-- `theme_slug` — format: `[signal-type]-[category]-[descriptive-name-kebab-case]`
-  - Descriptive name: 3–5 words, kebab-case, specific not generic
-  - Example: `knowledge-enablement-blast-segmentation-by-building`
+- `theme_slug` — format: `[signal]_[category]_[descriptive_name]`
+  - Descriptive name: 3–5 words, snake_case, specific not generic
+  - Example: `knowledge_enablement_blast_segmentation_by_building`
   - Check `themes/` directory first — if a matching theme file exists, use its exact slug
 - `verbatim_quote` — 50–120 chars, include speaker name and transcript timestamp: `"[Speaker, HH:MM] quote text"`
 - `context` — 1 sentence explaining what the observation reveals
@@ -134,7 +134,7 @@ For each signal extract:
 4. `response` — rep gives inconsistent answer to recurring question
 5. `comms` — client discovers limitation live on call
 6. `process` — broken pre/post-training workflow
-7. `feature-gap` — client requests missing feature
+7. `feature_gap` — client requests missing feature
 8. `expectation` — client had wrong product expectation
 9. `limit` — client hits hard platform constraint
 10. `competitor` — competitor named on call
@@ -161,7 +161,7 @@ other path reaches `critical`. Set `severity_final` for each feed the signal rou
 ## Step 6 — Idempotency check
 
 For each signal:
-1. Check if `themes/[theme-slug].md` exists
+1. Check if `themes/[theme_slug].md` exists
 2. If it exists, check the Occurrences table for a row matching this `notion_page_url`
 3. Match found → skip this signal (already logged), continue
 
@@ -201,7 +201,7 @@ Source: [Notion URL] — [HH:MM]
 ### product_digest_feed
 
 **Selecting a Critical Gap:** post this card immediately (any day) for any product signal
-(`feature-gap`, `expectation`, `limit`) whose `severity_final` on the product scale is
+(`feature_gap`, `expectation`, `limit`) whose `severity_final` on the product scale is
 `critical`. Per Step 5 that means a `high`-rubric product signal on a high-MRR account.
 Non-critical product signals are not posted immediately — they are picked up by the
 Monday weekly digest. One card per critical signal.
@@ -237,11 +237,11 @@ Suggested action: [advocacy→case study | endorsement→social proof | expansio
 
 For each signal processed (not skipped as duplicate):
 
-**If `themes/[theme-slug].md` does not exist** — create it:
+**If `themes/[theme_slug].md` does not exist** — create it:
 
 ```markdown
 ---
-theme_slug: [theme-slug]
+theme_slug: [theme_slug]
 signal_type: [signal_type]
 category: [category]
 owner: [owner from taxonomy.json]
@@ -260,7 +260,7 @@ last_seen: [call_date]
 | [client] | [call_date] | [Meeting]([notion_page_url]) | "[verbatim_quote]" | [HH:MM] |
 ```
 
-**If `themes/[theme-slug].md` exists** — append a row to the Occurrences table and update frontmatter:
+**If `themes/[theme_slug].md` exists** — append a row to the Occurrences table and update frontmatter:
 - `client_count` += 1
 - `last_seen` = call_date
 - `status`: 1 client → `candidate`, 2 clients → `emerging`, 3+ clients → `theme`

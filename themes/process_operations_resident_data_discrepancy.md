@@ -1,5 +1,5 @@
 ---
-theme_slug: process-operations-resident-data-discrepancy
+theme_slug: process_operations_resident_data_discrepancy
 signal_type: process
 category: operations
 owner: CSM Ops
