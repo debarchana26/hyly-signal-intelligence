@@ -1,5 +1,5 @@
 ---
-theme_slug: knowledge-enablement-performance-center-reporting
+theme_slug: knowledge_enablement_performance_center_reporting
 signal_type: knowledge
 category: enablement
 owner: CSM Ops

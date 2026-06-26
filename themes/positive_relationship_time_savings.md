@@ -1,5 +1,5 @@
 ---
-theme_slug: positive-relationship-time-savings
+theme_slug: positive_relationship_time_savings
 signal_type: positive
 category: relationship
 owner: Marketing

@@ -1,7 +1,6 @@
 ---
-theme_slug: feature-gap-product-automated-renewal-reminders
-signal_type: feature-gap
-category: product
+theme_slug: feature_gap_product_automated_renewal_reminders
+signal_type: feature_gapcategory: product
 owner: PM
 status: candidate
 client_count: 1

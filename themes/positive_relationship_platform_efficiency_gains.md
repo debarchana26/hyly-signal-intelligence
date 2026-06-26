@@ -1,5 +1,5 @@
 ---
-theme_slug: positive-relationship-platform-efficiency-gains
+theme_slug: positive_relationship_platform_efficiency_gains
 signal_type: positive
 category: relationship
 owner: Marketing

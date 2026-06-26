@@ -1,5 +1,5 @@
 ---
-theme_slug: knowledge-enablement-blast-segmentation-by-building
+theme_slug: knowledge_enablement_blast_segmentation_by_building
 signal_type: knowledge
 category: enablement
 owner: KM

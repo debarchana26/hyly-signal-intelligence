@@ -107,3 +107,17 @@ Add a new dated entry for every behavior-affecting change. Keep entries terse.
 - `config/gchat-templates.json` (dynamic, handles N signals) is now the sole card source.
 - Skill Step 7 + Config section now require all GChat cards to be built from
   `config/gchat-templates.json`.
+
+### 2026-06-26 — theme slug convention switched to snake_case
+- **New convention:** `[signal]_[category]_[descriptive_name]` — every hyphen in a theme slug
+  is now an underscore (was `[signal-type]-[category]-[descriptive-name-kebab-case]`).
+- Renamed all 14 existing `themes/*.md` files (`-` → `_`) and updated each `theme_slug` frontmatter
+  value to match its new filename.
+- **taxonomy.json:** renamed the only hyphenated signal type `feature-gap` → `feature_gap` so the
+  slug, the taxonomy key, and the `signal_type` frontmatter all stay consistent. Updated the
+  `signal_type` value in the 2 `feature_gap_product_*.md` files.
+- Propagated `feature-gap` → `feature_gap` everywhere it is referenced as a signal type:
+  `weekly-digest.yml` digest filter, `README.md` (feeds/routing tables, Critical Gap rule, diagram),
+  and `feature-requests.md` (ledger wording + the 2 slug rows).
+- Updated convention docs and placeholders in `CLAUDE.md` and `skill/km-signal-pipeline.md`
+  (`kebab-case` → `snake_case`, `[theme-slug]` → `[theme_slug]`, example/incorrect slugs).

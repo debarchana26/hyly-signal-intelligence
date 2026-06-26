@@ -1,5 +1,5 @@
 ---
-theme_slug: knowledge-enablement-automated-workflows
+theme_slug: knowledge_enablement_automated_workflows
 signal_type: knowledge
 category: enablement
 owner: KM

@@ -1,7 +1,7 @@
 # Feature Requests — running ledger
 
-One row per **feature-gap** signal detected by the signal-intelligence pipeline.
-Maintained manually. This is a human-readable rollup of the `feature-gap-*` files
+One row per **feature_gap** signal detected by the signal-intelligence pipeline.
+Maintained manually. This is a human-readable rollup of the `feature_gap_*` files
 in `themes/`; the per-theme files remain the canonical signal log.
 
 - **Status** values: `detected` (signal captured in `themes/`), `sent` (written to the
@@ -13,5 +13,5 @@ in `themes/`; the per-theme files remain the canonical signal log.
 
 | Date | Theme slug | Title | Client | Category | Priority | Current MRR | MRR Upside | Notion page | Approval status | Status |
 |------|------------|-------|--------|----------|----------|-------------|------------|-------------|-----------------|--------|
-| 2026-06-18 | `feature-gap-product-automated-renewal-reminders` | Automated Renewal Reminders | Peakmade (HALO) | product | — | — | — | [CSM Recurring Check In Peakmade 2026-06-18](https://app.notion.com/p/CSM-Recurring-Check-In-Peakmade-2026-06-18-HALO-36c1db9ba441808598b3e19b4be7b7ca) | Pending | test |
-| 2026-06-18 | `feature-gap-product-bulk-rent-adjustments` | Bulk Rent Adjustments | Peakmade (HALO) | product | — | — | — | [CSM Recurring Check In Peakmade 2026-06-18](https://app.notion.com/p/CSM-Recurring-Check-In-Peakmade-2026-06-18-HALO-36c1db9ba441808598b3e19b4be7b7ca) | Pending | test |
+| 2026-06-18 | `feature_gap_product_automated_renewal_reminders` | Automated Renewal Reminders | Peakmade (HALO) | product | — | — | — | [CSM Recurring Check In Peakmade 2026-06-18](https://app.notion.com/p/CSM-Recurring-Check-In-Peakmade-2026-06-18-HALO-36c1db9ba441808598b3e19b4be7b7ca) | Pending | test |
+| 2026-06-18 | `feature_gap_product_bulk_rent_adjustments` | Bulk Rent Adjustments | Peakmade (HALO) | product | — | — | — | [CSM Recurring Check In Peakmade 2026-06-18](https://app.notion.com/p/CSM-Recurring-Check-In-Peakmade-2026-06-18-HALO-36c1db9ba441808598b3e19b4be7b7ca) | Pending | test |

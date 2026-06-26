@@ -1,5 +1,5 @@
 ---
-theme_slug: positive-relationship-events-feature-enthusiasm
+theme_slug: positive_relationship_events_feature_enthusiasm
 signal_type: positive
 category: relationship
 owner: Marketing
