@@ -11,7 +11,7 @@ Read these three files in order before taking any action:
 
 1. `config/call-filter.json` — defines which Notion pages to query
 2. `config/taxonomy.json` — defines signal type → category, owner, and feeds
-3. `config/mrr-thresholds.json` — defines MRR threshold and severity bump rules
+3. `config/mrr-thresholds.json` — defines MRR threshold, severity bump rules, and `gchat_client_allowlist` (7 clients whose calls are posted to GChat; signals are captured for all clients)
 
 Do not hardcode any values that exist in these files. If a routing decision is not in taxonomy.json, stop and flag it rather than guessing.
 

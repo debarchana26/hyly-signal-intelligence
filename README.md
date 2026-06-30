@@ -57,7 +57,7 @@ Signal pipeline for Hyly.AI client calls. Reads transcripts from Notion MeetingD
 | `skill/km-signal-pipeline.md` | **The pipeline engine.** Steps 1–9, card formats, severity rubric, error handling. This is what Claude executes. |
 | `config/call-filter.json` | Which Notion pages qualify: allowed `Status`, allowed `Meeting Type` list, transcript-URL field priority. |
 | `config/taxonomy.json` | The 12 signal types — each with its **definition**, `category`, `owner`, and target `feeds`. Source of truth for routing and type boundaries. |
-| `config/mrr-thresholds.json` | `mrr_high_threshold`, the per-feed `severity_scales`, and the `severity_bump_when_mrr_high` promotion rules. |
+| `config/mrr-thresholds.json` | `mrr_high_threshold`, the per-feed `severity_scales`, the `severity_bump_when_mrr_high` promotion rules, and `gchat_client_allowlist` — the 7 clients whose calls are posted to GChat (signals are captured for all clients). |
 | `config/gchat-templates.json` | The only source for GChat card JSON (client meeting, critical gap, weekly digest, positive signal). Skill fills placeholders and POSTs. |
 | `themes/[theme_slug].md` | One file per named theme. Frontmatter (`status`, `client_count`, `first_seen`, `last_seen`) + an Occurrences table with a Notion link, quote, and timestamp per sighting. Updated every run. |
 | `digests/YYYY-WW.md` | Weekly compiled product digest, generated Monday and posted to `product_digest_feed`. |
@@ -109,6 +109,14 @@ detected signals (up to 6 per call) are still written to `themes/`.
 
 **Theme status promotion.** `candidate` (1 client) → `emerging` (2) → `theme` (3+),
 based on `client_count` in the theme file's Occurrences table.
+
+**GChat client allowlist.** Signals are captured and theme files written for **all**
+clients. GChat posting (and the feature request test DB) is restricted to the 7 clients
+in `config/mrr-thresholds.json → gchat_client_allowlist`: Greystar, Willow Bridge,
+RPM Living, Cushman & Wakefield, Rangewater, Drucker & Falk, Brookfield. Client
+matching uses HubSpot `Management Company Name` first; falls back to the MeetingDiary
+page name if that field is missing. Non-allowlisted calls are logged as "GChat skipped"
+in the run summary.
 
 ---
 

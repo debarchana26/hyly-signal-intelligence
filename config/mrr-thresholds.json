@@ -10,5 +10,15 @@
   "severity_bump_when_mrr_high": {
     "client_meeting_feed":  { "watch": "act_now" },
     "product_digest_feed":  { "low": "medium", "medium": "high", "high": "critical" }
-  }
+  },
+
+  "gchat_client_allowlist": [
+    "Greystar",
+    "Willow Bridge",
+    "RPM Living",
+    "Cushman & Wakefield",
+    "Rangewater",
+    "Drucker & Falk",
+    "Brookfield"
+  ]
 }

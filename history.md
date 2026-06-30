@@ -108,6 +108,22 @@ Add a new dated entry for every behavior-affecting change. Keep entries terse.
 - Skill Step 7 + Config section now require all GChat cards to be built from
   `config/gchat-templates.json`.
 
+### 2026-06-30 — GChat client allowlist + two-step client name lookup
+- **`config/mrr-thresholds.json`:** added `gchat_client_allowlist` — 7 clients using
+  exact HubSpot `Management Company Name` values: Greystar, Willow Bridge, RPM Living,
+  Cushman & Wakefield, Rangewater, Drucker & Falk, Brookfield.
+- **`skill/km-signal-pipeline.md` Step 7:** added allowlist check before any GChat post
+  or external destination write (including feature request test DB). Non-allowlisted
+  clients are still fully processed (transcript read, signals extracted, theme files
+  written, Notion marked processed) but no GChat card is posted. Logged in run summary
+  as "GChat skipped — not in allowlist".
+- **Two-step client name matching:** Step A — match via HubSpot `Management Company Name`
+  field (from DealStrategy relation); Step B fallback — semantic match on MeetingDiary
+  page name if `managementcompany` is empty or yields no hit. Drucker & Falk resolved
+  via page name search (not present in HubSpot Management Companies).
+- **Why:** signal capture must cover all clients; GChat and external notifications are
+  scoped to the 7 high-priority clients above.
+
 ### 2026-06-26 — theme slug convention switched to snake_case
 - **New convention:** `[signal]_[category]_[descriptive_name]` — every hyphen in a theme slug
   is now an underscore (was `[signal-type]-[category]-[descriptive-name-kebab-case]`).

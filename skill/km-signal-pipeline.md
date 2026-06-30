@@ -171,6 +171,30 @@ For each signal:
 
 Feeds for each signal type come from `config/taxonomy.json → feeds`.
 
+**GChat allowlist check — REQUIRED before any post:**
+Before posting any card to any GChat feed (or any external destination including the
+feature request test DB), check whether the client matches an entry in
+`mrr-thresholds.json → gchat_client_allowlist` using this two-step lookup:
+
+**Step A — HubSpot `managementcompany` match (first try):**
+Read the `Management Company Name` property from the client's HubSpot record (via the
+DealStrategy relation on the MeetingDiary page). Compare case-insensitively against each
+allowlist entry. The client name must start with or equal the allowlist entry.
+
+**Step B — Notion page name semantic match (second try, fallback only):**
+If the `managementcompany` field is empty, missing, or yields no allowlist match, fall
+back to a semantic/fuzzy match of the MeetingDiary page name (the `ClientName` prefix
+from `ClientName.YYYY.MM.DD`) against the allowlist entries. Use the same
+case-insensitive prefix rule.
+
+- **Match found (either step)** → post to GChat feeds normally.
+- **No match after both steps** → skip all GChat posts for this call. Still write
+  theme files (Step 8) and set `Added to Google Chat = true` (Step 9) so the call is
+  not reprocessed. Log in the run summary as "processed (GChat skipped — not in allowlist)".
+
+This means signals are captured for ALL clients, but external notifications are
+restricted to allowlisted clients only.
+
 **Card format — REQUIRED:** Every card posted to Google Chat (any feed) MUST be built
 from `config/gchat-templates.json`. This is the single source of truth for card layout —
 look up the matching template by name (`client_meeting_card`, `product_digest_critical`,
