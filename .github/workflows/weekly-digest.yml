@@ -1,8 +1,6 @@
 name: Weekly Product Digest
 
 on:
-  schedule:
-    - cron: '0 10 * * 1'  # 10:00 UTC Monday (after daily ingest at 09:00)
   workflow_dispatch:
 
 jobs:

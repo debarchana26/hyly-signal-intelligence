@@ -1,8 +1,6 @@
 name: Daily Signal Ingest
 
 on:
-  schedule:
-    - cron: '0 9 * * 1-5'  # 09:00 UTC Mon–Fri
   workflow_dispatch:
     inputs:
       date_range:
